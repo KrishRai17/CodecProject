@@ -1,20 +1,20 @@
-# 🔐 Secure Vault Web Application
+# Secure Vault Web Application
 
-## 📌 Overview
+## Overview
 
 The **Secure Vault Web Application** is a Flask-based web application designed to securely store sensitive user data such as notes and files using encryption techniques. It ensures data confidentiality, implements role-based access control, and provides an admin dashboard for monitoring system activity.
 
 ---
 
-## 🎯 Objective
+## Objective
 
 To build a secure web application that implements authentication, authorization, and encrypted data storage while following secure coding practices and OWASP security principles.
 
 ---
 
-## 🚀 Features
+## Features
 
-### 👤 User Features
+### User Features
 
 * User Registration & Login
 * Secure Password Hashing (bcrypt)
@@ -22,7 +22,7 @@ To build a secure web application that implements authentication, authorization,
 * Encrypted File Upload & Storage
 * View and Delete Notes/Files
 
-### 👑 Admin Features
+### Admin Features
 
 * Admin Dashboard
 * View System Logs (Login Success/Failure)
@@ -31,7 +31,7 @@ To build a secure web application that implements authentication, authorization,
 
 ---
 
-## 🛡️ Security Features
+## Security Features
 
 * Data Encryption for Notes & Files
 * Input Sanitization (XSS Protection using Bleach)
@@ -43,7 +43,7 @@ To build a secure web application that implements authentication, authorization,
 
 ---
 
-## 🧠 Technologies Used
+## Technologies Used
 
 * **Backend:** Python (Flask)
 * **Database:** MongoDB
@@ -52,7 +52,7 @@ To build a secure web application that implements authentication, authorization,
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
 > Add screenshots here
 
@@ -72,7 +72,7 @@ To build a secure web application that implements authentication, authorization,
 ![How_It_Works](screenshots/how_it_works.png)
 ---
 
-## ⚙️ Installation & Setup
+## Installation & Setup
 
 ### 1. Clone the repository
 
@@ -112,7 +112,7 @@ python app.py
 
 ---
 
-## 🌐 Usage
+## Usage
 
 * Open browser: `http://localhost:5000`
 * Register/Login
@@ -121,7 +121,7 @@ python app.py
 
 ---
 
-## 📊 Project Highlights
+## Project Highlights
 
 * Implements real-world web security practices
 * Covers OWASP Top 10 vulnerabilities
@@ -130,19 +130,18 @@ python app.py
 
 ---
 
-## 🔗 Links
+## Links
 
 * GitHub Repository: https://github.com/KrishRai17/CodecProject
-* LinkedIn Post: [Add your LinkedIn post link]
 
 ---
 
-## 👨‍💻 Author
+## Author
 
 **Krish Rai**
 
 ---
 
-## 📄 License
+## License
 
 This project is for educational purposes only.
