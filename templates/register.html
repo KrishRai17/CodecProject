@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <section class="panel auth-panel auth-page">
+    <div class="auth-grid register-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">Create your vault</span>
+        <h2>Register for a secure note experience.</h2>
+        <p>Protect your most important secrets with encrypted storage and simple session-based access.</p>
+        <p class="smaller-text">Welcome to the next evolution of private note keeping.</p>
+      </div>
+
+      <div class="auth-card center-card">
+        <h3>Create account</h3>
+        <form action="{{ url_for('register_submit') }}" method="post" class="stack">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <input type="text" name="name" placeholder="Full name" required>
+          <input type="email" name="email" placeholder="Email address" required>
+          <input type="password" name="password" placeholder="Password" required>
+          <button type="submit">Get started</button>
+        </form>
+        <p class="small-note">Already have an account? <a href="{{ url_for('login_page') }}">Sign in</a></p>
+      </div>
+    </div>
+  </section>
+{% endblock %}

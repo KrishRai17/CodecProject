@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="panel vault-panel">
+  <div class="vault-header">
+    <div>
+      <span class="eyebrow">Vault dashboard</span>
+      <h2>{{ user.name }}'s vault</h2>
+      <p class="muted">
+        Logged in as {{ user.email }} · 
+        <strong>{{ notes|length }}</strong> secured note{% if notes|length != 1 %}s{% endif %} · 
+        <strong>{{ files|length }}</strong> secured file{% if files|length != 1 %}s{% endif %}
+      </p>
+    </div>
+
+    <form action="{{ url_for('logout') }}" method="post">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <button class="ghost" type="submit">Logout</button>
+    </form>
+  </div>
+
+  <div class="vault-grid" style="margin-top: 32px;">
+
+    <!-- LEFT SIDE -->
+    <div class="stack" style="gap: 24px;">
+
+      <!-- CREATE NOTE -->
+      <div class="panel note-card">
+        <h3>Create a new secret</h3>
+        <form action="{{ url_for('web_create_note') }}" method="post" class="stack">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <input type="text" name="title" placeholder="Note title" required>
+          <textarea name="content" placeholder="Write your secret note" rows="6" required></textarea>
+          <button type="submit">Save encrypted note</button>
+        </form>
+      </div>
+
+      <!-- UPLOAD FILE -->
+      <div class="panel note-card">
+        <h3>Secure File Storage</h3>
+        <form action="{{ url_for('web_upload_file') }}" method="post" enctype="multipart/form-data" class="stack">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <input type="file" name="file" required>
+          <button type="submit">Upload & Encrypt File</button>
+        </form>
+      </div>
+
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="stack" style="gap: 32px;">
+
+      <!-- NOTES -->
+      <div>
+        <h3>Recent Notes</h3>
+
+        {% if notes %}
+          {% for note in notes %}
+            <div class="note-card">
+              <h4>{{ note.title }}</h4>
+              <p>{{ note.content }}</p>
+              <small>{{ note.created_at }}</small>
+
+              <form action="{{ url_for('web_delete_note', note_id=note.id) }}" method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button class="ghost">Delete</button>
+              </form>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p>No notes yet</p>
+        {% endif %}
+      </div>
+
+      <!-- FILES -->
+      <div>
+        <h3>Secure Files</h3>
+
+        {% if files %}
+          {% for file in files %}
+            <div class="note-card">
+              <strong>{{ file.original_filename }}</strong>
+              <p class="muted">Encrypted file</p>
+              <small>{{ file.created_at }}</small>
+
+              <form action="{{ url_for('web_delete_file', file_id=file._id) }}" method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button class="ghost">Delete</button>
+              </form>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p>No files uploaded</p>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</section>
+{% endblock %}

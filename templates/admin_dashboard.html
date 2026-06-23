@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="panel vault-panel">
+
+  <!-- HEADER -->
+  <div class="vault-header">
+    <div>
+      <span class="eyebrow">Admin Panel</span>
+      <h2>System Dashboard</h2>
+      <p class="muted">Monitor users, logs, and system activity</p>
+    </div>
+
+    <form action="{{ url_for('logout') }}" method="post">
+      <button class="ghost">Logout</button>
+    </form>
+  </div>
+
+  <!-- STATS -->
+  <div class="vault-grid" style="margin-top: 30px;">
+
+    <div class="note-card">
+      <h3>Total Users</h3>
+      <p style="font-size: 2rem;">{{ stats.total_users }}</p>
+    </div>
+
+    <div class="note-card">
+      <h3>Total Logs</h3>
+      <p style="font-size: 2rem;">{{ stats.total_logs }}</p>
+    </div>
+
+    <div class="note-card">
+      <h3>Failed Logins</h3>
+      <p style="font-size: 2rem; color: red;">{{ stats.failed_logins }}</p>
+    </div>
+
+  </div>
+
+  <!-- LOGS -->
+  <div style="margin-top: 40px;">
+    <h3>Recent Activity</h3>
+    <p class="muted">Latest system events</p>
+
+    {% if logs %}
+    <div class="notes-list">
+
+      {% for log in logs %}
+      <div class="note-card note-item">
+        <strong>{{ log.email }}</strong>
+        <p>Action: {{ log.action }}</p>
+        <p>Status: {{ log.status }}</p>
+        <time>{{ log.timestamp }}</time>
+      </div>
+      {% endfor %}
+
+    </div>
+    {% else %}
+      <p>No logs available</p>
+    {% endif %}
+
+  </div>
+
+</section>
+{% endblock %}

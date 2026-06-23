@@ -1,0 +1,359 @@
+{
+	"info": {
+		"_postman_id": "c5625c27-c100-47b5-b778-958b9f3e46c7",
+		"name": "Secure Vault Web Application",
+		"description": "API collection for testing Secure Vault Flask and MongoDB Web Application",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Alex Mercer\",\n    \"email\": \"alex@example.com\",\n    \"password\": \"SecurePass123!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						},
+						"description": "Registers a new user account. Ensures email uniqueness and validates password strength (contains uppercase, lowercase, numbers, and symbols)."
+					},
+					"response": []
+				},
+				{
+					"name": "Login User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"alex@example.com\",\n    \"password\": \"SecurePass123!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						},
+						"description": "Authenticates user and returns a Bearer JWT access token. Copy this token into the `jwt_token` collection variable."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Secure Notes",
+			"item": [
+				{
+					"name": "Create Note",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Offshore Server Credentials\",\n    \"content\": \"IP: 198.51.100.42\\nUsername: admin\\nPrivate Key: encrypted_and_safe\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/notes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"notes"
+							]
+						},
+						"description": "Saves an encrypted note. Note title and content are encrypted locally via AES-256-GCM before database write."
+					},
+					"response": []
+				},
+				{
+					"name": "List Notes",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/notes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"notes"
+							]
+						},
+						"description": "Gets all notes belonging to the authenticated user. Automatically decrypts payload using AES-256-GCM in-flight."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Note",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/notes/:note_id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"notes",
+								":note_id"
+							],
+							"variable": [
+								{
+									"key": "note_id",
+									"value": "<insert_note_id_here>"
+								}
+							]
+						},
+						"description": "Deletes a secure note from MongoDB. Ensures owner-level authorization."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Secure Files",
+			"item": [
+				{
+					"name": "Upload File",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"description": "Upload a PDF, PNG, JPG, JPEG, GIF, or TXT file (Max 5MB)",
+									"type": "file",
+									"src": ""
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/files/upload",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"files",
+								"upload"
+							]
+						},
+						"description": "Uploads and encrypts a file. Files are encrypted on disk with UUID filenames to prevent path traversal. Metadata is stored in MongoDB."
+					},
+					"response": []
+				},
+				{
+					"name": "List Files",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/files",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"files"
+							]
+						},
+						"description": "Retrieves metadata of all files owned by the user."
+					},
+					"response": []
+				},
+				{
+					"name": "Download File",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/files/download/:file_id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"files",
+								"download",
+								":file_id"
+							],
+							"variable": [
+								{
+									"key": "file_id",
+									"value": "<insert_file_id_here>"
+								}
+							]
+						},
+						"description": "Downloads the specified file. The file is decrypted in memory and streamed directly to the client."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete File",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/files/:file_id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"files",
+								":file_id"
+							],
+							"variable": [
+								{
+									"key": "file_id",
+									"value": "<insert_file_id_here>"
+								}
+							]
+						},
+						"description": "Removes the encrypted payload file from disk and deletes metadata from MongoDB."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "System Health",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/health",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"health"
+					]
+				},
+				"description": "Performs system check verifying database status and server routing."
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:5000",
+			"type": "string"
+		},
+		{
+			"key": "jwt_token",
+			"value": "your_bearer_token_here",
+			"type": "string"
+		}
+	]
+}

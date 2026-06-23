@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <section class="panel info-panel">
+    <div class="info-header">
+      <span class="eyebrow">How it works</span>
+      <h2>Secure Vault explained.</h2>
+      <p>Learn how your data is protected, how authentication is handled, and what makes this vault a strong choice for private note keeping.</p>
+    </div>
+
+    <div class="info-grid">
+      <article class="info-card">
+        <h3>Authentication</h3>
+        <p>Login sessions are stored server-side using Flask sessions. Your user identity is verified on every protected request, and the vault ensures only authenticated users can access their notes.</p>
+      </article>
+
+      <article class="info-card">
+        <h3>Encryption</h3>
+        <p>Notes are encrypted before they reach the database using AES-GCM. This means titles and contents are stored as ciphertext, and only the app can decrypt them with the encryption key.</p>
+      </article>
+
+      <article class="info-card">
+        <h3>Secure storage</h3>
+        <p>Encrypted note data is saved to the database, while the raw plaintext never persists. The database only sees ciphertext and nonces, so your secrets remain confidential.</p>
+      </article>
+
+      <article class="info-card">
+        <h3>Data integrity</h3>
+        <p>AES-GCM provides both confidentiality and integrity. This prevents tampering and ensures that decrypted notes are exactly the same as when they were encrypted.</p>
+      </article>
+
+      <article class="info-card">
+        <h3>Rate limiting</h3>
+        <p>Login, registration, and note actions are protected by request rate limits. This reduces abuse and makes brute-force attacks much harder.</p>
+      </article>
+
+      <article class="info-card">
+        <h3>Best practices</h3>
+        <p>Passwords are hashed with bcrypt, secrets are kept out of source control using environment variables, and sensitive routes are only accessible after login.</p>
+      </article>
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Secure Vault</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="panel hero-card">
+        <p class="eyebrow">Secure Vault Web Application</p>
+        <h1>Manage encrypted notes safely.</h1>
+        <p class="lede">Register, sign in, and store notes with JWT authentication and AES-256 encrypted content.</p>
+      </section>
+
+      <section class="panel auth-card">
+        <div id="authView">
+          <h2>Welcome</h2>
+          <p id="statusMessage" class="status">Use the form below to create an account or sign in.</p>
+
+          <form id="authForm" class="stack">
+            <input id="name" type="text" placeholder="Full name" />
+            <input id="email" type="email" placeholder="Email address" required />
+            <input id="password" type="password" placeholder="Password" required />
+            <div class="button-row">
+              <button id="registerBtn" type="submit">Register</button>
+              <button id="loginBtn" type="button">Login</button>
+            </div>
+          </form>
+        </div>
+
+        <div id="vaultView" class="hidden">
+          <div class="vault-header">
+            <div>
+              <h2>My vault</h2>
+              <p id="userLabel" class="muted"></p>
+            </div>
+            <button id="logoutBtn" type="button" class="ghost">Logout</button>
+          </div>
+
+          <form id="noteForm" class="stack">
+            <input id="noteTitle" type="text" placeholder="Note title" required />
+            <textarea id="noteContent" rows="5" placeholder="Write your secret note" required></textarea>
+            <button type="submit">Save encrypted note</button>
+          </form>
+
+          <div>
+            <h3>Recent notes</h3>
+            <ul id="notesList" class="notes-list"></ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
